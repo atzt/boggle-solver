@@ -22,7 +22,7 @@ const workerCode = () => {
      * @param {Array} ignorePoints Points that we are not allowed to travel to next (the current path's points)
      */
     const findWords = (point, currentNode, ignorePoints = []) => {
-      const words = [];
+      let words = [];
 
       const nextPoints = getNextPoints(point, ignorePoints);
       nextPoints.forEach(nextPoint => {
@@ -37,7 +37,8 @@ const workerCode = () => {
           }
           // If the next node has children then we should keep searching for more words down the path
           if (nextNode.children.length > 0) {
-            words.push(...findWords(nextPoint, nextNode, [ ...ignorePoints, point ]));
+            const nextIgnorePoints = ignorePoints.concat(point);
+            words = words.concat(findWords(nextPoint, nextNode, nextIgnorePoints));
           }
         }
       });
@@ -93,14 +94,14 @@ const workerCode = () => {
       !ignorePoints.includes(nextPoint) && nextPoints.push(nextPoint);
 
     // Traverse Boggle board finding words starting at each starting point.
-    const words = [];
+    let words = [];
     startingPoints.forEach(startingPoint => {
       
       // First see if ANY words start with the starting point's letter
       const letter = boggleBoardValues[startingPoint];
       const nextNode = wordTree.children.find(child => child.value === letter);
       if (nextNode) {
-        words.push(...findWords(startingPoint, nextNode));
+        words = words.concat(findWords(startingPoint, nextNode));
       }
     });
 
