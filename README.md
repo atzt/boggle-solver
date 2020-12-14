@@ -24,15 +24,16 @@ Approach: An exhaustive game board traversal where each starting point on the ga
 - Step 3 - Group the starting points on the game board (coordinates (0,0) - (3,3)) to be given to a list of web workers (one for each CPU) so that we can run this algorithm in parallel.
 
 ## Time Limit Reached
-I spent an exorbitant amount of time debating how to present this project (React web app vs. Java CLI program). Sprint Retro: Should have done the CLI. :) I wouldn't have spent so much time looking into choices for hosting my web app and building a CI/CD pipeline. Seeing as Java is not used in house at RStudio I chose the flashier approach.
+I spent an exorbitant amount of time debating how to present this project (React web app vs. Java CLI program). Sprint Retro: Should have done the CLI. :) I wouldn't have spent so much time looking into choices for hosting my web app and building a CI/CD pipeline. Seeing as Java is not used in house at RStudio I chose the flashier approach. At the 4 hour mark I had CI/CD pipeline created, UI completed, and part way through the algorithm. Getting the web workers to play nicely with React and ES6 ended up being a large time suck.
 
 ## Future 
 Due to reaching the time constraints the following features were intentionally left out:
 - Unit Testing (And yet I spent all that time creating a CD pipeline with automatic testing)
-- Move focus after placing text
-- Add better validation to prevent bad input
-- Make UI responsive (developed on my ultrawide monitor)
-- Validation is a little touchy when entering in non-alphabetic code (submit button is not disabled and title is not properly set)
+- UI Updates
+    - Move focus after placing text
+    - Add better validation to prevent bad input
+    - Make UI responsive (developed on my ultrawide monitor)
+    - Validation is a little touchy when entering in non-alphabetic code (submit button is not disabled and title is not properly set)
 
 ## Takeaways
 This was the first time I have used web workers. I have had plenty of experience working with concurrency APIs in Java so this was a fun experiment. That being said there is an interesting behavior of web workers. When providing any data to a web worker, the data is cloned over. I believe this behavior in combination with passing in a large set of words may have caused a negative performance impact. Based on my tests running with a single CPU ran in about 70 ms while running with 4 CPUs took ~130ms. It almost doubled the time.
