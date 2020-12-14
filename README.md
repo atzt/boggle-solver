@@ -35,9 +35,10 @@ Due to reaching the time constraints the following features were intentionally l
 - Validation is a little touchy when entering in non-alphabetic code (submit button is not disabled and title is not properly set)
 
 ## Takeaways
-This was the first time I have used web workers. I have had plenty of experience working with concurrency APIs in Java so this was a fun experiment. That being said there is an interesting behavior of web workers. When providing any data to a web worker, the data is copied over. I believe this behavior in combination with passing in a large set of words may have caused a negative performance impact. Based on my tests running with a single CPU ran in about 70 ms while running with 4 CPUs took ~130ms. It almost doubled the time.
+This was the first time I have used web workers. I have had plenty of experience working with concurrency APIs in Java so this was a fun experiment. That being said there is an interesting behavior of web workers. When providing any data to a web worker, the data is cloned over. I believe this behavior in combination with passing in a large set of words may have caused a negative performance impact. Based on my tests running with a single CPU ran in about 70 ms while running with 4 CPUs took ~130ms. It almost doubled the time.
 
 ## Resources
 - [Create React App](https://github.com/facebook/create-react-app)
 - [English Dictionary](https://github.com/dwyl/english-words)
+- [React Hook Form](https://react-hook-form.com/)
 - [Web Worker Hack](https://github.com/facebook/create-react-app/issues/1277) mentioned in boggle-solver.js
