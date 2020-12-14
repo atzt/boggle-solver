@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Boggle Solver
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+This is a React application providing users a UI to enter whatever alphabetic characters they would like into a Boggle game board and displaying ALL of the words that can be created from that game board. It only supports an English US dictionary. The application can be accessed via my [GitHub Pages app](https://github.com/atzt/boggle-solver). Feel free to play around with it.
 
-In the project directory, you can run:
+Files of interest for review would be:
+App.css - App specific CSS file
+App.js - UI code
+boggle-solver.js - Web worker that runs the boggle algorithm
+dictionary_en_US.json - JSON file with English dictionary. See resources below for where file was originally found.
+dictionary-test.json - Test file of only two "words" used for testing.
+dictionary-utilities.js - Utility functions reading dictionary and creating data structures from it
+index.css - Element CSS
+node.js.yml -  CI/CD pipeline configuration
 
-### `npm start`
+A majority of the remaining files were generated via `create-react-app`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## The Main Algorithm:
+Approach: An exhaustive game board traversal where each starting point on the game board can be extracted as its own problem and run in isolation as a concurrent task.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Step 1 - Reduce a FULL English dictionary to just the words that contain only the letters found on the game board.
+Step 2 - Create a tree data structure of the selected words used during game board traversal. This will allow the algorithm to prematurely stop traversing paths within the game board if we find that there exist no more words along a specific path. Then we won't need to check all 12 million paths.
+Step 3 - Group the starting points on the game board (coordinates (0,0) - (3,3)) to be given to a list of web workers (one for each CPU) so that we can run this algorithm in parallel.
 
-### `npm test`
+## Time Limit Reached
+I spent an exorbitant amount of time debating how to present this project (React web app vs. Java CLI program). Sprint Retro: Should have done the CLI. :) I wouldn't have spent so much time looking into choices for hosting my web app and building a CI/CD pipeline. Seeing as Java is not used in house at RStudio I chose the flashier approach.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Future 
+Due to reaching the time constraints the following features were intentionally left out:
+- Unit Testing (And yet I spent all that time creating a CD pipeline with automatic testing)
+- Move focus after placing text
+- Add better validation to prevent bad input
+- Make UI responsive (developed on my ultrawide monitor)
+- Validation is a little touchy when entering in non-alphabetic code (submit button is not disabled and title is not properly set)
 
-### `npm run build`
+## Takeaways
+This was the first time I have used web workers. I have had plenty of experience working with concurrency APIs in Java so this was a fun experiment. That being said there is an interesting behavior of web workers. When providing any data to a web worker, the data is copied over. I believe this behavior in combination with passing in a large set of words may have caused a negative performance impact. Based on my tests running with a single CPU ran in about 70 ms while running with 4 CPUs took ~130ms. It almost doubled the time.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Resources
+- [Create React App](https://github.com/facebook/create-react-app)
+- [English Dictionary](https://github.com/dwyl/english-words)
+- [Web Worker Hack](https://github.com/facebook/create-react-app/issues/1277) mentioned in boggle-solver.js
