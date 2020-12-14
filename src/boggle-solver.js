@@ -27,7 +27,7 @@ const workerCode = () => {
       const nextPoints = getNextPoints(point, ignorePoints);
       nextPoints.forEach(nextPoint => {
 
-        const letter = boggleBoardValues[nextPoint];
+        const letter = boggleBoardValues[nextPoint].toLowerCase();
         const nextNode = currentNode.children.find(child => child.value === letter);
 
         if (nextNode) {
@@ -100,7 +100,7 @@ const workerCode = () => {
     startingPoints.forEach(startingPoint => {
       
       // First see if ANY words start with the starting point's letter
-      const letter = boggleBoardValues[startingPoint];
+      const letter = boggleBoardValues[startingPoint].toLowerCase();
       const nextNode = wordTree.children.find(child => child.value === letter);
       if (nextNode) {
         words = words.concat(findWords(startingPoint, nextNode));
