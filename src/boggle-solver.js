@@ -37,8 +37,7 @@ const workerCode = () => {
           }
           // If the next node has children then we should keep searching for more words down the path
           if (nextNode.children.length > 0) {
-            const nextIgnorePoints = ignorePoints.concat(point);
-            words = words.concat(findWords(nextPoint, nextNode, nextIgnorePoints));
+            words = words.concat(findWords(nextPoint, nextNode, ignorePoints.concat(point)));
           }
         }
       });
@@ -54,7 +53,10 @@ const workerCode = () => {
      * @param {Array} ignorePoints Points to ignore (the current path's points)
      */
     const getNextPoints = (point, ignorePoints) => {
-      const [ x, y ] = point.split(',').map(coordinate => +coordinate);
+      const coordinates = point.split(',').map(coordinate => +coordinate);
+      const x = coordinates[0];
+      const y = coordinates[1];
+
       const nextPoints = [];
       if (x < boardDimension - 1) {
         addNextPoint(`${x + 1},${y}`, nextPoints, ignorePoints);
