@@ -31,7 +31,7 @@ button {
 }
 
 button:not(:disabled):hover {
-  opacity: 90%;
+  opacity: 0.9;
 }
 
 button:disabled {
