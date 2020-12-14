@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This is a React application providing users a UI to enter whatever alphabetic characters they would like into a Boggle game board and displaying ALL of the words that can be created from that game board. It only supports an English US dictionary. The application can be accessed via my [GitHub Pages app](https://github.com/atzt/boggle-solver). Feel free to play around with it.
+This is a React application providing users a UI to enter whatever alphabetic characters they would like into a Boggle game board and displaying ALL of the words that can be created from that game board. It only supports an English US dictionary. The application can be accessed via my [GitHub Pages app](https://atzt.github.io/boggle-solver/). Feel free to play around with it.
 
 Files of interest for review would be:
 - App.css - App specific CSS file
