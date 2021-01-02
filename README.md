@@ -30,7 +30,6 @@ I spent an exorbitant amount of time debating how to present this project (React
 Due to reaching the time constraints the following features were intentionally left out:
 - Unit Testing (And yet I spent all that time creating a CD pipeline with automatic testing)
 - UI Updates
-    - Move focus after entering text
     - Add better validation to prevent bad input
     - Validation is a little touchy when entering in non-alphabetic keys (submit button is not disabled and title is not properly set)
 
