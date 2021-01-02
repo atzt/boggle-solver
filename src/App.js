@@ -181,6 +181,7 @@ function App() {
   return (
     <div className="app">
       <form
+        autoComplete="off"
         className="app-content"
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -194,6 +195,7 @@ function App() {
               {
                 boardDimensionArray.map((value, columnIndex) =>
                   <input
+                    autoComplete="off"
                     className="game-dice"
                     key={columnIndex}
                     maxLength="1"
