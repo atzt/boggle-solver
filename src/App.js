@@ -154,6 +154,30 @@ function App() {
     }
   };
 
+  // Event handler for changing focus after entering text on the board
+  const onInput = (e) => {
+    const currentField = e.currentTarget;
+    if (currentField.value) {
+      const coordinates = currentField.name.split(',').map(c => +c);
+      if (coordinates[0] === BOARD_DIMENSION - 1) {
+        if (coordinates[1] === BOARD_DIMENSION - 1) {
+          const runButton = document.getElementById('runButton');
+          if (!runButton.disabled) {
+            runButton.focus();
+          }
+          return;
+        }
+        coordinates[1] += 1;
+        coordinates[0] = 0;
+      } else {
+        coordinates[0] += 1;
+      }
+      const nextField = document.querySelector('input[name="'+coordinates.join()+'"]');
+      nextField.focus();
+      nextField.select();
+    }
+  };
+
   return (
     <div className="app">
       <form
@@ -174,6 +198,7 @@ function App() {
                     key={columnIndex}
                     maxLength="1"
                     name={`${columnIndex},${rowIndex}`}
+                    onInput={onInput}
                     ref={
                       register({
                         required: true,
@@ -201,6 +226,7 @@ function App() {
             <button
               className="button-bar__run-button"
               disabled={hasErrors || !dictionaryLoaded}
+              id="runButton"
               title={hasErrors ? 'Please fill entire board with alphabetic values' : !dictionaryLoaded ? 'Loading dictionary' : 'Solve Boggle Board'}
               type="submit"
             >
